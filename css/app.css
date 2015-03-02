@@ -1,0 +1,7 @@
+.weather{
+  position: absolute;
+  right: 5px;
+  top: 10px;
+  background: #CCC;
+  padding:5px;
+}
