@@ -33,8 +33,9 @@ window.App = angular.module('WeatherApp', []);
     function() {
         return {
             restrict: 'E',
-            templateUrl: './templates/locations.tpl',
-            controller: 'viewportController as viewportCtl'
+            require: '^viewportController',
+            controllerAs: 'viewportCtl',
+            templateUrl: './templates/locations.tpl'
         }
     }
   ]);
