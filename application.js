@@ -8,18 +8,21 @@ window.App = angular.module('WeatherApp', []);
     this.weather = {};
     this.locationResults  = [];
     this.error = '';
+    this.date = new Date();
     this.gps = {
       lat: '',
       lng: ''
     }
 
     $interval(function() {
-      debugger;
       _this.currentDate = _this.getTime();
     }, 1000);
 
     this.getTime = function(){
-      return $filter('date')(new Date(), 'MMM d, y h:mm:ss a');
+      delete _this.date;
+      _this.date = new Date();
+
+      return $filter('date')(_this.date, 'MMM d, y h:mm:ss a');
     }
     this.getWeather = function(lat, long, addr){
       var apiKey = '27e8c45d861b3f25630f9fee10b64db3';
@@ -30,7 +33,6 @@ window.App = angular.module('WeatherApp', []);
       }
       $http.jsonp('https://api.forecast.io/forecast/' + apiKey + '/' + lat + ',' + long + '?callback=JSON_CALLBACK').success(function(data, status, headers, config) {
         _this.weather = data;
-        debugger;
 
       }).error(function(data, status, headers, config) {
         console.warn('Error fetching jsonp response');
