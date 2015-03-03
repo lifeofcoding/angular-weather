@@ -17,7 +17,6 @@
     }, 1000);
 
     this.getTime = function(){
-      delete _this.date;
       _this.date = new Date();
 
       return $filter('date')(_this.date, 'MMM d, y h:mm:ss a');
