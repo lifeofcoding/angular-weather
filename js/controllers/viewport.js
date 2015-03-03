@@ -5,21 +5,20 @@
     this.location = 'America!';
     this.weather = {};
     this.locationResults  = [];
-    this.getTime = function(){
-      return $filter('date')(new Date(), 'MMM d, y h:mm:ss a');
-    }
+    this.error = '';
     this.gps = {
       lat: '',
       lng: ''
     }
-    this.currentDate = this.getTime();
-    this.error = '';
 
     $interval(function() {
       debugger;
       _this.currentDate = _this.getTime();
     }, 1000);
 
+    this.getTime = function(){
+      return $filter('date')(new Date(), 'MMM d, y h:mm:ss a');
+    }
     this.getWeather = function(lat, long, addr){
       var apiKey = '27e8c45d861b3f25630f9fee10b64db3';
       _this.location = addr;
@@ -50,5 +49,6 @@
         });
       }
     }
+    this.currentDate = this.getTime();
   }]);
 })(App);
