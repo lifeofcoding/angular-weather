@@ -2,27 +2,55 @@ window.App = angular.module('WeatherApp', []);
 
 (function(App){
   'use strict';
-  App.controller('viewportController', ['$http', function($http) {
+  App.controller('viewportController', ['$http', '$interval', '$filter', function($http, $interval, $filter) {
     var _this = this;
     this.location = 'America!';
     this.weather = {};
     this.locationResults  = [];
+    this.getTime = function(){
+      return $filter('date')(new Date(), 'MMM d, y h:mm:ss a');
+    }
+    this.gps = {
+      lat: '',
+      lng: ''
+    }
+    this.currentDate = this.getTime();
+    this.error = '';
 
-    this.getWeather = function(lat, long){
+    $interval(function() {
+      debugger;
+      _this.currentDate = _this.getTime();
+    }, 1000);
+
+    this.getWeather = function(lat, long, addr){
       var apiKey = '27e8c45d861b3f25630f9fee10b64db3';
-
+      _this.location = addr;
+      _this.gps = {
+        lat: lat,
+        lng: long
+      }
       $http.jsonp('https://api.forecast.io/forecast/' + apiKey + '/' + lat + ',' + long + '?callback=JSON_CALLBACK').success(function(data, status, headers, config) {
         _this.weather = data;
+        debugger;
+
       }).error(function(data, status, headers, config) {
         console.warn('Error fetching jsonp response');
+        _this.error = 'Error fetching jsonp response';
       });
     }
     this.showLocations = function(){
-      $http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + _this.location).success(function(data, status, headers, config) {
-        _this.locationResults = data.results;
-      }).error(function(data, status, headers, config) {
-        console.warn('Error fetching response from google');
-      });
+      if(_this.location === ''){
+        _this.error = 'Error please input an address or location';
+        return;
+      }else{
+        _this.error = '';
+        $http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + _this.location).success(function(data, status, headers, config) {
+          _this.locationResults = data.results;
+        }).error(function(data, status, headers, config) {
+          console.warn('Error fetching response from google');
+          _this.error = 'Error fetching response from google';
+        });
+      }
     }
   }]);
 })(App);
@@ -35,7 +63,7 @@ window.App = angular.module('WeatherApp', []);
             restrict: 'E',
             require: '^viewportController',
             controllerAs: 'viewportCtl',
-            templateUrl: './templates/locations.tpl'
+            templateUrl: './templates/locations.tpl?cache=2'
         }
     }
   ]);

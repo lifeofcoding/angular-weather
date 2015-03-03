@@ -6,7 +6,7 @@
             restrict: 'E',
             require: '^viewportController',
             controllerAs: 'viewportCtl',
-            templateUrl: './templates/locations.tpl'
+            templateUrl: './templates/locations.tpl?cache=2'
         }
     }
   ]);

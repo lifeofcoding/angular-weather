@@ -1,7 +1,21 @@
 .weather{
   position: absolute;
-  right: 5px;
-  top: 10px;
-  background: #CCC;
+  right: 9%;
+  top: 25%;
+  //background: #CCC;
   padding:5px;
+}
+.address{
+  width: 300px;
+  display: inline;
+}
+.weather-btn{
+  display: inline;
+}
+.list-item{
+  width: 500px !important;
+  margin: 10px;
+}
+.location-list{
+  margin-left: -10px;
 }
